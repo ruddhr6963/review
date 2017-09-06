@@ -7,7 +7,7 @@
 <article>
 <%-- 컨테이너 영역 --%>
 <h1>어서오세요~!</h1>
-<a href="board/list">이동</a>
+
 
 </article>
       

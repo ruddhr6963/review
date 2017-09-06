@@ -17,8 +17,8 @@
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="http://code.jquery.com/jquery-3.2.1.js"></script>
 	<script type="text/javascript" src="<c:url value="/smarteditor/js/service/HuskyEZCreator.js"/>" charset="utf-8"></script>
-	<script type="text/javascript" src="<c:url value="/css/bootstrap/js/bootstrap.min.js"/>"></script>
-
+	<script type="text/javascript" src="<c:url value="/js/bootstrap.min.js"/>"></script>
+	
 	</head>
 <body>
 	<%-- header (상단) --%>
@@ -41,7 +41,7 @@
                 <li>
                     <h1>영화</h1>
                     <ul >
-                        <li class ="sub-wrap"><a href="board/list">국내 영화</a>
+                        <li class ="sub-wrap"><a href="<c:url value="list"/>">국내 영화</a>
                             <ul>
                                <li><a href="#">SF/판타지</a></li>
                                 <li><a href="#">드라마</a></li>
@@ -84,8 +84,8 @@
                                 <li><a href="#">과학</a></li>
                                 <li><a href="#">기타</a></li>
                             </ul>
-                            
                         </li>
+                        
                         <li class ="sub-wrap"><a  href="#">외국 도서</a>
                             <ul>
                                 <li><a href="#">SF/판타지/무협</a></li>

@@ -11,15 +11,29 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap/bootstrap.min.css" />">
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
-<title>도서 찾기</title>
+<title>도서 찾기</title> 
 
 <script type="text/javascript">
 	function add_book(image,title,author,publisher,pubdate){
 		title = text_replace(title);
+		author = text_replace(author);
+		publisher = text_replace(publisher);
+		pubdate = text_replace(pubdate);
+
+		$(opener.document).find("#book_name").val(title);
 		
-		window.opener.location.href="book-board?image="+image+"&title="+title+"&author="+author+"&publisher="+publisher+"&pubdate="+pubdate;
-		opener.document.getElementById("book_name").value= title;	
+		$(opener.document).find("#image").attr('src',image);
+		$(opener.document).find("#book_title").text(title);
+		$(opener.document).find("#author").text(author);
+		$(opener.document).find("#publisher").text(publisher);
+		$(opener.document).find("#pubdate").text(pubdate);
 		
+		$(opener.document).find(".image").val(image);
+		$(opener.document).find(".book_title").val(title);
+		$(opener.document).find(".author").val(author);
+		$(opener.document).find(".publisher").val(publisher);
+		$(opener.document).find(".pubdate").val(pubdate);
+
 		window.close();
 	}
 	

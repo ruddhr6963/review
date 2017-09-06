@@ -1,14 +1,16 @@
 package spring.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import spring.model.Book;
 import spring.service.NaverBookService;
  
 @Controller
@@ -25,35 +27,12 @@ public class BookController {
 	}
     
     @RequestMapping("/book-board")
-    public String write(Model model, @RequestParam(required=false) String image, @RequestParam(required=false) String title, @RequestParam(required=false) String author, @RequestParam(required=false) String publisher, @RequestParam(required=false) String pubdate) {
+    public String write(@RequestParam(required=false)String image, @RequestParam(required=false)String title, @RequestParam(required=false)String author, @RequestParam(required=false)String publisher, @RequestParam(required=false)String pubdate) {
     	log.info("image : " + image);
     	log.info("title : " + title);
     	log.info("author : " + author);
     	log.info("publisher : " + publisher);
     	log.info("pubdate : " + pubdate);
-    	
-    	Book book = new Book();
-    	
-    	model.addAttribute("name", title);
-    	
-    	if(image==null)
-    		image = "http://placehold.it/120x120";
-    	if(title==null)
-    		title = "책 제목";
-    	if(author==null)
-    		author = "저자";
-    	if(publisher==null)
-    		publisher = "출판사";
-    	if(pubdate==null)
-    		pubdate = "출판일";
-
-    	book.setImage(image);
-    	book.setTitle(title);
-    	book.setAuthor(author);
-    	book.setPublisher(publisher);
-    	book.setPubdate(pubdate);
-    	
-    	model.addAttribute("search_book", book);
     	
     	return "board/book-board";
     }
@@ -61,16 +40,26 @@ public class BookController {
     //키워드가 있을때도 있고 없을때도있음 
     //있을때는 가져가고 없을때는 안가져가고 
     @RequestMapping("/bookList")
-    public String bookList(Model model, @RequestParam(required=false)String keyword){        
+    public ModelAndView bookList(@RequestParam(required=false)String keyword){
+    //public ModelAndView bookList(@PathVariable String keyword){
+    	log.info("함수 실행");
+    	log.info("키워드 : " + keyword);
+        ModelAndView mav = new ModelAndView();
+        
         if(keyword !=null)
         {
-        	model.addAttribute("bookList", service.searchBook(keyword,10,1));
-            model.addAttribute("keyword", keyword);
+            mav.addObject("bookList",service.searchBook(keyword,10,1));
+            mav.addObject("keyword", keyword);
         }
         
-        return "board/bookList";
+        mav.setViewName("board/bookList");
+        return mav;
     }
-
+    
+    @RequestMapping("/")
+    public void search() {
+    	log.info("함수 호출");
+    }
 }
 
 

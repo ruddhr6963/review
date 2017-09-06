@@ -39,7 +39,7 @@
 		</ul>
 		
 		<div class="align-right">
-			<button type="button" class="btn " onclick="location.href='book-board'">글쓰기</button>
+			<button type="button" class="btn " onclick="location.href='book-write'">글쓰기</button>
 		</div>
 		
 		<div class="text-center">

@@ -16,21 +16,24 @@ import org.springframework.stereotype.Service;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+
+import spring.model.board.Book;
  
-import spring.model.Book;
  
 @Service
 public class NaverBookService {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-    private static String clientID = "CqYIrbVKElM_PQpzRxsh";
-    private static String clientSecret = "XrVjLszeY8";
- 
+  
+
     //display ==> 몇개 출력
     //start==>몇번쨰부터 (item)
     public List<Book> searchBook(String keyword, int display, int start){
     	log.info("search 함수 실행");
     	
+    	String clientID = "Ym24vNXnOwftAe2SaXT2";
+    	String clientSecret = "VlzpYE7fBu";
+    	    
         List<Book> list = null;
         try {
             URL url;
@@ -131,6 +134,7 @@ public class NaverBookService {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+        	System.out.println("error");
             e.printStackTrace();
         } catch (XmlPullParserException e) {
             // TODO Auto-generated catch block
