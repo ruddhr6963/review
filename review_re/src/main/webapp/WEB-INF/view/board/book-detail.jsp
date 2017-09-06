@@ -20,36 +20,32 @@
 		<tbody>
 			<tr>
 				<td>${board.no}</td>
-				<td>${board.title }</td> 
-				<td>제목</td>
-				<td>분류</td>
-				<td>장르</td> 
-				<td>작성일</td>
+				<td>${board.title}</td> 
+				<td>${board.b_item_no }</td>
+				<td>${board.b_head }</td> 
+				<td>${board.b_tag }</td>
 			</tr>
 			<tr>
-				<td>작성자</td>
+				<td>${board.writer }</td>
 			</tr>
 			<tr>
 				<td>
-					<ul id="list-ul">
-						<li>
-							<div class="row form-inline">
-	    						<div class="form-group area-20" >
-	                      			<img src="http://placehold.it/100x100">
-	                     		</div>
-	                        	<div id="block">
-	                            	<a href="#" id="block">제목</a>
-	                          		<a href="#">지은이</a>
-	                            	<p>내용</p>
-	                      		</div>
-	                 		</div>
-	               		</li>
-	       			</ul>
+					<div class="row form-inline">
+						<div class="form-group area-20" >
+							<img id="image" src="${book.image }">
+						</div>
+						<div style="padding-left: 10px">
+							<h5 style="font-size: 15px">${book.title }</h5>
+							<h5 style="font-size: 15px">${book.author }</h5>
+							<h5 style="font-size: 15px">${book.publisher }</h5>
+							<h5 style="font-size: 15px">${book.pubdate }</h5>
+						</div>   
+					</div>
 	    		</td>
 	      	</tr>
 	    	<tr>
 	      		<td>
-	     			<p>내용</p>
+	     			<p>${board.detail }</p>
 				</td>
 	 		</tr>
 	  		<tr>
@@ -68,11 +64,11 @@
 	<div class="align-right">
 		<c:choose>
 		    <c:when test="${mode eq 'write'}">
-		        <button type="button" class="btn ">글쓰기</button>		        
+		        <button type="button" class="btn" onclick="location.href='book-write'">글쓰기</button>		        
 		    </c:when>
 		    <c:when test="${mode eq 'preview'}">
-		        <button type="button" class="btn ">등록하기</button>
-    			<button type="button" class="btn ">수정하기</button>
+		        <button type="button" class="btn " >등록하기</button>
+    			<button type="button" class="btn " >수정하기</button>
 		    </c:when>
 		</c:choose>
 		

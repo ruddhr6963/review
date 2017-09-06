@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+ 
 import spring.model.board.Board;
 import spring.model.board.BoardDao;
 import spring.model.board.Book;
@@ -62,7 +62,9 @@ public class BoardController {
 		
 		Board board = new Board();
 		board.setItem_no(Integer.parseInt(request.getParameter("item_no")));
+		board.setB_item_no(board.getItem_no());
 		board.setHead(Integer.parseInt(request.getParameter("head")));
+		board.setB_head(board.getHead());
 		board.setWriter(request.getParameter("writer"));
 		board.setTitle(request.getParameter("title"));
 		board.setDetail(request.getParameter("ir1"));
