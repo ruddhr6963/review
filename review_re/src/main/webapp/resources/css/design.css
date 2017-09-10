@@ -1,14 +1,13 @@
-@charset "EUC-KR";
-
-.block{
-    display: inline-block; 
-    width: 650px;
-}
+@charset "UTF-8";
 
 label{
 	margin-left: 15px;
 	font-size: 20px;
 	display: block;
+}
+
+#margin{
+	margin-right: 20px;  
 }
 
 #search-wrapper{
@@ -23,10 +22,6 @@ label{
 	height: auto;
 }
 
-.margin{
-	margin-right: 20px;  
-}
-
 .menu-wrap{        
 }
 .menu-wrap > ul{
@@ -36,7 +31,7 @@ label{
 	display:inline-block;
 }
 
-/* ¼­ºê¸Ş´º ½ºÅ¸ÀÏ */
+/* ì„œë¸Œë©”ë‰´ ìŠ¤íƒ€ì¼ */
 .menu-wrap li ul{
 	display:none;
 	width:200px;
@@ -97,6 +92,8 @@ label{
     font-size: 40px;
 }    
 
+
+
 /* btn */
 .date-btn{
 	padding: 10px;
@@ -149,4 +146,13 @@ label{
 
 .add-btn{
 	width: 700px;
+}
+
+.block{
+    display: inline-block; 
+    width: 650px;
+}
+
+.list_img{
+	
 }

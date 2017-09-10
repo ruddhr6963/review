@@ -1,6 +1,4 @@
-@charset UTF-8;
-
-@charset UTF-8;
+@charset "UTF-8";
 
 *{
     font-family: "Verdana", sans-serif;
@@ -36,8 +34,6 @@ nav.top-menu a{
 }
 img{
     margin:0px auto;
-    width: 120px;
-    height: 120px;
 }
 
 /* 홈페이지 전체적으로 사용할 공통 서식 디자인들 */

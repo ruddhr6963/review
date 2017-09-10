@@ -1,6 +1,8 @@
 package spring.model.board;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository("boardDao")
 public class BoardDaoImpl implements BoardDao{
 	private Logger log = LoggerFactory.getLogger(getClass());
+	private Map<Integer, Book> map = new HashMap<>();
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -20,21 +23,35 @@ public class BoardDaoImpl implements BoardDao{
 		return new Board(rs);
 	};
 	
+	private RowMapper<Book> bmapper = (rs, index)->{
+		return new Book(rs);
+	};
+	
 	@Override
-	   public List<Board> list() {
-	      RowMapper<Board> mapper = (rs, index)->{
-	         Board board = new Board();
-	         board.setNo(rs.getInt("no"));
-	         board.setItem_no(rs.getInt("item_no"));
-	         board.setHead(rs.getInt("head"));
-	         board.setWriter(rs.getString("writer"));
-	         board.setTitle(rs.getString("title"));
-	         board.setReg(rs.getString("reg"));
-	         board.setRead(rs.getInt("read"));
-	         return board;
-	      };
-	      return jdbcTemplate.query("select * from p_board order by no desc", mapper);
-	   }
+	public List<Board> board_list(int start, int end, int item_no) {
+		String sql = "select * from "
+						+ "(select rownum rn, TMP.* from "
+						+ "(select * from p_board where item_no=?) TMP) "
+						+ "where rn between ? and ?";
+		
+		Object[] args = {item_no, start, end};
+		
+	   return jdbcTemplate.query(sql, args, mapper);
+	}
+	
+	@Override
+	public Map<Integer, Book> book_list(int no) {
+		Object[] args = {no};
+		List<Book> list = jdbcTemplate.query("select * from p_search where no=?", args, bmapper);
+		
+		for(Book book: list) {
+			map.put(no, book);
+		}
+		
+		//Book book = list.get(0);
+		
+		return map;
+	}
 
 	public int search_no() {
 		String sql = "select p_search_seq.nextval from dual";
@@ -91,6 +108,71 @@ public class BoardDaoImpl implements BoardDao{
 		jdbcTemplate.update(sql, args);
 	}
 
-	
+	@Override
+	public int count(int item_no) {		
+		String sql = "select count(*) from p_board where item_no=?";
+		
+		Object[] args = {item_no};
+		int count = jdbcTemplate.queryForObject(sql, args, Integer.class);
+		return count;
+	}
+
+	@Override
+	public String search_nickname(String id) {
+		String sql = "select nickname from p_member where id=?";
+		
+		Object[] args = {id};
+		return jdbcTemplate.queryForObject(sql, args, String.class );
+
+	}
+
+	@Override
+	public List<Book> exist_book(Book book) {
+		String sql = "select * from p_search where title=? and author=?";
+		
+		Object[] args = {book.getTitle(), book.getAuthor()};	
+		return jdbcTemplate.query(sql, args, bmapper);
+
+	}
+
+	@Override
+	public Book detail_book(int no) {
+		String sql = "select * from p_search where no=?";
+		
+		Object[] args = {no};
+		List<Book> list = jdbcTemplate.query(sql, args, bmapper);
+		
+		return list.get(0);
+	}
+
+	@Override
+	public List<Board> detail_board(int no, int item_no) {
+		String sql = "select * from p_board where no=? and item_no=?";
+		
+		Object[] args = {no, item_no};
+		return jdbcTemplate.query(sql, args, mapper);
+		
+		
+	}
+
+	@Override
+	public void update_board(Board board, Book book) {		
+		String sql = "update p_board set item_no=?, head=?, tag=?, title=?, detail=?, reg=sysdate, search_no=? where no=? and writer=?";
+		
+		Object[] args = {board.getItem_no(), board.getHead(), board.getTag(), board.getTitle(), board.getDetail(),
+							board.getSearch_no(), board.getNo(), board.getWriter()};
+		
+		jdbcTemplate.update(sql, args);
+	}
+
+	@Override
+	public void delete_board(int no, int item_no, String id) {
+		String sql = "delete from p_board where no=? and item_no=? and writer=?";
+		
+		Object[] args = {no, item_no, id};
+		
+		jdbcTemplate.update(sql, args);
+	}
+
 
 }

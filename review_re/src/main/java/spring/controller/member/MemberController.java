@@ -189,10 +189,115 @@ public class MemberController {
 		}else {
 			throw new Exception("비밀번호 미일치");
 		}
-		
-		
+	}
 	
+	//나의 정보수정 뷰
+	@RequestMapping("/myedit")
+	public String editview() {
 
+		return "member/myedit";
+	}
+	
+	//나의 정보창에서 비밀번호를 변경
+	@RequestMapping(value = "/myedit", method = RequestMethod.POST)
+	public String myedit(@RequestParam String id,
+			@RequestParam String pw, @RequestParam String rpw, 
+			@RequestParam String nickname, @RequestParam String phone, HttpSession session
+			) throws Exception {
+			
+			Member member = (Member)session.getAttribute("member");
+			
+			if(pw.equals("")) {
+				pw =  member.getPw();
+				rpw = member.getPw();
+			}
+		log.info(pw);
+		log.info(rpw);
+		if(!pw.equals(rpw)) {
+			throw new Exception("비밀번호 다름 발생");
+		}else {
+			
+			memberDao.infoedit(id, pw, nickname, phone);
+			
+			session.invalidate();
+			
+			return "redirect:/";
+			
+		}
+	}
+	
+	//비밀번호 체크 뷰
+	@RequestMapping("/check")
+	public String checkview() {
+
+		return "member/check";
+	}
+	
+	//비밀번호 체크
+	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	public String check(@RequestParam String mode, @RequestParam String id,@RequestParam String pw) throws Exception {
+	
+		
+		boolean result = memberDao.check(id, pw);
+		
+		if(result) {
+			
+			if(mode.equals("edit")) {
+				return "redirect:myedit";
+			}else {
+				throw new Exception("없는 모드");
+			}
+			
+		}else {
+			throw new Exception("없는 아이디나 비밀번호");
+		}
+
+	}
+	
+	//아이디 중복확인
+	@RequestMapping(value = "/idcheck", method = RequestMethod.POST)
+	public String idcheck(@RequestParam String id) throws Exception {
+		
+		log.info(id);
+		
+		boolean result = memberDao.idcheck(id);
+		
+		if(result) {
+			return "member/success";
+		}else {
+			throw new Exception("아이디가있음");
+		}		
+	}
+	//닉네임 중복확인
+	@RequestMapping(value = "/nickcheck", method = RequestMethod.POST)
+	public String nickcheck(@RequestParam String nick) throws Exception {
+		
+		log.info(nick);
+		
+		boolean result = memberDao.nickcheck(nick);
+		
+		if(result) {
+			return "member/success";
+		}else {
+			throw new Exception("아이디가있음");
+		}		
+	}
+	
+	@RequestMapping(value = "/nickcheck2", method = RequestMethod.POST)
+	public String nickcheck2(@RequestParam String nick, @RequestParam String id) throws Exception {
+		
+		
+		boolean result = memberDao.nickcheck(id, nick);
+		boolean result2 = memberDao.nickcheck(nick);
+		
+		System.out.println(result);
+		System.out.println(result2);
+		
+		if(!result || result2) {
+			return "member/success";
+		}else {
+			throw new Exception("아이디가있음");
+		}		
 	}
 	
 

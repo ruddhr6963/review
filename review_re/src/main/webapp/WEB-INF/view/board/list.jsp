@@ -23,32 +23,52 @@
       		</li>             
   		</ul>
 		<br>
-		<ul id="list-ul">
-			<li>
-				<div class="row form-inline">
- 					<div class="form-group area-20" >
-            			<img src="http://placehold.it/100x100">
-              		</div>
-           			<div id="block">
-              			<a href="#" id="block">제목</a>
-                   		<a href="#">지은이</a>
-                		<p>내용</p>
-              		</div>
-         		</div>
-        	</li>
-		</ul>
+		<c:forEach items="${board}" var ="board">
+			<div class="row form-inline" style="height:80px">
+				<div class="form-group area-20" style="border: 1px darkseagreen ;">
+		 			<img style="width:80px; height:100px" src="${book[board.search_no].image }">
+		    	</div>
+		 		<div>
+		 			<a href="<c:url value="book-detail?no=${board.no }&item_no=${board.item_no }" />" style="font-size: 13px; width:500px" id="block">${book[board.search_no].title}</a>
+		   			<div class="align-left">
+			       		<h5 style="font-size: 13px">${nickname[board.no]}</h5>
+			       		<h5 style="font-size: 13px; padding-left:15px; padding-right:15px">&#124;</h5>
+			      		<h5 style="font-size: 13px">${board.reg}</h5>
+		      		</div>
+		    		<h5 style="font-size: 13px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${board.detail }</h5>
+					<div class="align-left">
+			       		<h5 style="font-size: 13px">${board.b_item_no}</h5>
+			       		<h5 style="font-size: 13px; padding-left:15px; padding-right:15px">&#124;</h5>
+			      		<h5 style="font-size: 13px">${board.b_head}</h5>
+		      		</div>
+		  		</div>
+			</div>
+		<hr/>
+    	</c:forEach>
 		
 		<div class="align-right">
-			<button type="button" class="btn " onclick="location.href='book-write'">글쓰기</button>
+			<button type="button" class="btn " onclick="location.href='book-write?item=${item}'">글쓰기</button>
 		</div>
 		
 		<div class="text-center">
      		<ul class="pagination  justify-content-center">
-   				<li class="page-item"><a class="page-link" href="#">1</a></li>
-         		<li class="page-item"><a class="page-link" href="#">2</a></li>
-           		<li class="page-item"><a class="page-link" href="#">3</a></li>
-           		<li class="page-item"><a class="page-link" href="#">4</a></li>
-         		<li class="page-item"><a class="page-link" href="#">5</a></li>
+     			<c:if test="${startBlock>1}">
+     				<li class="page-item"><a href="${pageContext.request.contextPath}+${url}&page=${startBlock-1}" class="page-link">&lt;이전&gt;</a></li>
+				</c:if>
+				<%-- 번호 출력 (startBlock ~ endBlock --%>
+				<c:forEach var="i" begin="${startBlock}" end="${endBlock}" step="1">
+					<c:choose>
+						<c:when test="${i==pageNo}">
+							${i}
+						</c:when> 
+						<c:otherwise>
+							<li class="page-item"><a href="${url}&page=${i}" class="page-link">${i}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:if test="${endBlock<blockTotal}">
+					<li class="page-item"><a href="${url}&page=${endBlock+1}" class="page-link">[다음]</a></li>
+				</c:if>
     		</ul>
     	</div>
 	</div>

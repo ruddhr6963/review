@@ -190,7 +190,7 @@ public class Board {
 	}
 	public void setReg(String reg) {
 		this.reg = reg;
-	}
+	}	
 	public int getRead() {
 		return read;
 	}

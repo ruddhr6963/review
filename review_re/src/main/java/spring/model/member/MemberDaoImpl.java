@@ -109,7 +109,7 @@ public class MemberDaoImpl implements MemberDao {
 			mailMessage.setTo(email);
 			mailMessage.setSubject("비밀번호 변경 페이지 입니다");
 			
-			String text = "인증하시려면 아래의 링크를 누르세요\n" + "http://localhost:8080/review/repwset?token=" + token +";";
+			String text = "인증하시려면 아래의 링크를 누르세요\n" + "http://localhost:8080/review2/repwset?token=" + token +";";
 			mailMessage.setText(text);
 			mailsender.send(mailMessage);
 			log.debug(email + " 로 인증 메일 발송 완료");
@@ -126,6 +126,58 @@ public class MemberDaoImpl implements MemberDao {
 		
 		return result>0;
 
+	}
+
+	@Override
+	public boolean infoedit(String id, String pw, String nickname, String phone) {
+
+		String sql = "update p_member set pw = ?, nickname = ?, phone = ? where id = ?";
+		
+		int result = jdbcTemplate.update(sql, new Object[] {pw, nickname, phone, id});
+		
+		return result>0;
+	}
+
+	@Override
+	public boolean check(String id, String pw) {
+
+		String sql  = "select * from p_member where id = ? and pw = ?";
+		
+		boolean result = jdbcTemplate.query(sql, new Object[] {id, pw}, mapper).isEmpty();
+		
+		return !result;
+	}
+
+	@Override
+	public boolean idcheck(String id) {
+		
+		String sql = "select * from p_member where id = ?";
+		
+		boolean result = jdbcTemplate.query(sql, new Object[] {id}, mapper).isEmpty();
+		
+		return result;
+		
+	}
+	
+	@Override
+	public boolean nickcheck(String nick) {
+		
+		String sql = "select * from p_member where nickname = ?";
+		
+		boolean result = jdbcTemplate.query(sql, new Object[] {nick}, mapper).isEmpty();
+		
+		return result;
+		
+	}
+
+	@Override
+	public boolean nickcheck(String id, String nick) {
+
+		String sql = "select * from p_member where id =? and nickname = ?";
+		
+		boolean result = jdbcTemplate.query(sql, new Object[] {id, nick}, mapper).isEmpty();
+		
+		return result;
 	}
 
 }
